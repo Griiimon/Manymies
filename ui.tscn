@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxj0a37myekah"]
+
+[ext_resource type="Script" path="res://ui.gd" id="1_ohjv0"]
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("1_ohjv0")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Label FPS" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label Enemies" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
