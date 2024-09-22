@@ -1,2 +1,2 @@
 class_name BaseEnemy
-extends Area2D
+extends Node2D
