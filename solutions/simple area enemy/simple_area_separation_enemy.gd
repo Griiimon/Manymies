@@ -15,6 +15,8 @@ extends BaseEnemy
 @export var maximum_speed: float= 10.0
 # skip n calculation frames
 @export var skip_frames: int= 0
+# fine-tune the intersect_shape() max_results
+@export var max_intersect_results:= 32
 # for smoother movement
 @export_range(0.0, 1.0) var jitter_fix= 0.5
 
@@ -66,7 +68,7 @@ func get_overlapping_area_positions()-> Array[Vector2]:
 	
 	if dynamic_separation_area:
 		query.transform.origin= position
-		var query_result= get_world_2d().direct_space_state.intersect_shape(query)
+		var query_result= get_world_2d().direct_space_state.intersect_shape(query, max_intersect_results)
 		if query_result:
 			for item in query_result:
 				result.append(item.collider.position)
