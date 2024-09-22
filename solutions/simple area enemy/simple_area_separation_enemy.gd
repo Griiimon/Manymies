@@ -37,7 +37,7 @@ func _ready() -> void:
 		query.collide_with_areas= true
 		query.collision_mask= 2
 		query.shape= circle_shape
-		query.exclude= [get_rid()]
+		query.exclude= [(get_node(".") as Area2D).get_rid()]
 		query.transform= Transform2D.IDENTITY
 
 	else:
