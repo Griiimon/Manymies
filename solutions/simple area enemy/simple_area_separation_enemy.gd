@@ -26,6 +26,9 @@ extends BaseEnemy
 var velocity: Vector2
 var circle_shape: CircleShape2D
 var query: PhysicsShapeQueryParameters2D
+# offset the tick used for skip_frames by a random number so
+# it's more evenly spread out 
+var tick_offset: int
 
 
 
@@ -46,9 +49,11 @@ func _ready() -> void:
 		assert(separation_collision_shape.shape is CircleShape2D)
 		(separation_collision_shape.shape as CircleShape2D).radius= separation_radius
 
+	tick_offset= randi() % 60
+
 
 func _physics_process(delta: float) -> void:
-	if Engine.get_physics_frames() % ( skip_frames + 1 ) == 0:
+	if ( Engine.get_physics_frames() + tick_offset ) % ( skip_frames + 1 ) == 0:
 		# velocity= Vector2.ZERO
 		velocity= velocity.lerp(Vector2.ZERO, 1.0 - jitter_fix)
 		
