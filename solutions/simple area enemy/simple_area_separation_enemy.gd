@@ -4,25 +4,25 @@ extends BaseEnemy
 
 # if enabled this will dynamically trigger an intersect_shape()
 # query instead of using the Separation Area node
-@export var dynamic_separation_area: bool= false
+@export var dynamic_separation_area: bool= true
 
 # importance of target direction for final velocity
 @export var target_weight: float= 10.0
 
 # importance of separation from neighboring enemies for final velocity
-@export var separation_weight: float= 1.0
-@export var separation_radius: float= 25.0
+@export var separation_weight: float= 150.0
+@export var separation_radius: float= 40.0
 
 # weight that forces enemies to steer away from the player the closer they get
 @export var player_separation_weight: float= 1000.0
 
-@export var maximum_speed: float= 10.0
+@export var maximum_speed: float= 25.0
 
 # skip n calculation frames
-@export var skip_frames: int= 0
+@export var skip_frames: int= 20
 
 # fine-tune the intersect_shape() max_results
-@export var max_intersect_results:= 32
+@export var max_intersect_results:= 8
 
 # for smoother movement
 @export_range(0.0, 1.0) var jitter_fix= 0.5
