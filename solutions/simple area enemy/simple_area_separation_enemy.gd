@@ -11,6 +11,8 @@ extends BaseEnemy
 # importance of separation from neighboring enemies for final velocity
 @export var separation_weight: float= 1.0
 @export var separation_radius: float= 25.0
+# weight that forces enemies to steer away from the player the closer they get
+@export var player_separation_weight: float= 1000.0
 
 @export var maximum_speed: float= 10.0
 # skip n calculation frames
@@ -58,7 +60,9 @@ func _physics_process(delta: float) -> void:
 		velocity= velocity.lerp(Vector2.ZERO, 1.0 - jitter_fix)
 		
 		for other_pos in get_overlapping_area_positions():
-			separate_from(other_pos)
+			separate_from(other_pos, separation_weight)
+		
+		separate_from(Global.player.position, player_separation_weight)
 
 		var target_dir: Vector2= (Global.player.position - position).normalized()
 		velocity+= target_dir * target_weight
@@ -84,7 +88,7 @@ func get_overlapping_area_positions()-> Array[Vector2]:
 	return result
 
 
-func separate_from(other_pos: Vector2):
+func separate_from(other_pos: Vector2, weight: float):
 	var vec: Vector2= position - other_pos
 	if vec.is_zero_approx(): return
-	velocity+= vec.normalized() * 1.0 / vec.length() * separation_weight
+	velocity+= vec.normalized() * 1.0 / vec.length() * weight
