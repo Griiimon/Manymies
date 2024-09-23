@@ -70,7 +70,7 @@ func _ready() -> void:
 		query= PhysicsShapeQueryParameters2D.new()
 		query.collide_with_bodies= false
 		query.collide_with_areas= true
-		query.collision_mask= 2
+		query.collision_mask= Global.ENEMY_COLLISION_LAYER
 		query.shape= circle_shape
 		query.exclude= [(get_node(".") as Area2D).get_rid()]
 		query.transform= Transform2D.IDENTITY
@@ -83,7 +83,7 @@ func _ready() -> void:
 	obstacle_query= PhysicsShapeQueryParameters2D.new()
 	obstacle_query.collide_with_bodies= false
 	obstacle_query.collide_with_areas= true
-	obstacle_query.collision_mask= 4
+	obstacle_query.collision_mask= Global.OBSTACLE_COLLISION_LAYER
 	obstacle_query.shape= collision_shape.shape
 
 	# random tick offset 
