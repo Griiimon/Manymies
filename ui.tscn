@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://bxj0a37myekah"]
+[gd_scene load_steps=3 format=3 uid="uid://bxj0a37myekah"]
 
 [ext_resource type="Script" path="res://ui.gd" id="1_ohjv0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_10vpg"]
+font_size = 24
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
 
 [node name="UI" type="CanvasLayer"]
 script = ExtResource("1_ohjv0")
@@ -25,3 +30,21 @@ layout_mode = 2
 [node name="Label Enemies" type="Label" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="MarginContainer2"]
+layout_mode = 2
+text = "Hold left mouse button to move player"
+label_settings = SubResource("LabelSettings_10vpg")
