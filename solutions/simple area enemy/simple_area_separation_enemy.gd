@@ -8,29 +8,45 @@ extends BaseEnemy
 
 # importance of target direction for final velocity
 @export var target_weight: float= 10.0
+
 # importance of separation from neighboring enemies for final velocity
 @export var separation_weight: float= 1.0
 @export var separation_radius: float= 25.0
+
 # weight that forces enemies to steer away from the player the closer they get
 @export var player_separation_weight: float= 1000.0
 
 @export var maximum_speed: float= 10.0
+
 # skip n calculation frames
 @export var skip_frames: int= 0
+
 # fine-tune the intersect_shape() max_results
 @export var max_intersect_results:= 32
+
 # for smoother movement
 @export_range(0.0, 1.0) var jitter_fix= 0.5
 
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var separation_area: Area2D = $"Separation Area"
 @onready var separation_collision_shape: CollisionShape2D = $"Separation Area/CollisionShape2D"
 
 var velocity: Vector2
 var circle_shape: CircleShape2D
+
+# separation query for the outer area
 var query: PhysicsShapeQueryParameters2D
+
+# obstacle collision query for the inner area
+var obstacle_query: PhysicsShapeQueryParameters2D
+
 # offset the tick used for skip_frames by a random number so
 # it's more evenly spread out 
 var tick_offset: int
+
+var prev_position: Vector2
+
+var obstacle_collision_normal: Vector2
 
 
 
@@ -51,11 +67,33 @@ func _ready() -> void:
 		assert(separation_collision_shape.shape is CircleShape2D)
 		(separation_collision_shape.shape as CircleShape2D).radius= separation_radius
 
+	# build the obstacle query
+	obstacle_query= PhysicsShapeQueryParameters2D.new()
+	obstacle_query.collide_with_bodies= false
+	obstacle_query.collide_with_areas= true
+	obstacle_query.collision_mask= 4
+	obstacle_query.shape= collision_shape.shape
+
 	tick_offset= randi() % 60
 
 
 func _physics_process(delta: float) -> void:
-	if ( Engine.get_physics_frames() + tick_offset ) % ( skip_frames + 1 ) == 0:
+	if obstacle_collision_normal:
+		# move enemy back to position before collision and find a new position
+		# like it bounced off the obstacle
+		position= prev_position + ( position - prev_position ).bounce(obstacle_collision_normal)
+		
+		# bounce the velocity off the the obstacle as well, so it doesn't 
+		# immediately go back it into it
+		velocity= velocity.bounce(obstacle_collision_normal)
+		
+		# for safety, push the enemy a little bit away from the obstacle to be sure
+		# it doesn't overlap any more ( really necessary? )
+		position+= velocity * delta
+		
+		obstacle_collision_normal= Vector2.ZERO
+	
+	elif ( Engine.get_physics_frames() + tick_offset ) % ( skip_frames + 1 ) == 0:
 		# velocity= Vector2.ZERO
 		velocity= velocity.lerp(Vector2.ZERO, 1.0 - jitter_fix)
 		
@@ -69,6 +107,9 @@ func _physics_process(delta: float) -> void:
 
 		velocity= velocity.normalized() * maximum_speed
 
+	# store the current position so we can fall back to it if the new position
+	# causes a collision with an obstacle
+	prev_position= position
 	position+= velocity * delta
 
 
@@ -92,3 +133,9 @@ func separate_from(other_pos: Vector2, weight: float):
 	var vec: Vector2= position - other_pos
 	if vec.is_zero_approx(): return
 	velocity+= vec.normalized() * 1.0 / vec.length() * weight
+
+
+# called from an Area Obstacle if it detects an overlap and we get
+# the resulting collision normal
+func handle_obstacle_collision(normal: Vector2):
+	obstacle_collision_normal= normal
