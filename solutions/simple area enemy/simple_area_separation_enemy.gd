@@ -46,15 +46,27 @@ var tick_offset: int
 
 var prev_position: Vector2
 
+# the collision normal gets sent from an obstacle if we enter it
+# and helps us to resolve collision and bounce off the obstacle
 var obstacle_collision_normal: Vector2
 
 
 
 func _ready() -> void:
 	if dynamic_separation_area:
+		# with a "dynamic" separation area we are getting rid off the 
+		# Separation Area-node and replace it with an immediate query to the 
+		# physics space when we need it. especially useful when skipping
+		# frames, since an Area-node would still be running overlap checks
+		# each frame, but with a query it will only if we say so
+		
+		# store the actual shape and get rid off the rest
 		circle_shape= separation_collision_shape.shape
 		separation_area.queue_free()
 		
+		# pre-building the query. each time we run it we need to 
+		# update the position ( transform.origin ) in the query to
+		# our current position
 		query= PhysicsShapeQueryParameters2D.new()
 		query.collide_with_bodies= false
 		query.collide_with_areas= true
@@ -67,13 +79,14 @@ func _ready() -> void:
 		assert(separation_collision_shape.shape is CircleShape2D)
 		(separation_collision_shape.shape as CircleShape2D).radius= separation_radius
 
-	# build the obstacle query
+	# pre-building the obstacle query
 	obstacle_query= PhysicsShapeQueryParameters2D.new()
 	obstacle_query.collide_with_bodies= false
 	obstacle_query.collide_with_areas= true
 	obstacle_query.collision_mask= 4
 	obstacle_query.shape= collision_shape.shape
 
+	# random tick offset 
 	tick_offset= randi() % 60
 
 
@@ -94,31 +107,56 @@ func _physics_process(delta: float) -> void:
 		obstacle_collision_normal= Vector2.ZERO
 	
 	elif ( Engine.get_physics_frames() + tick_offset ) % ( skip_frames + 1 ) == 0:
-		# velocity= Vector2.ZERO
+		# this code block will only run each n physics ticks
+		# where n is defined in skip_frames 
+		
+		# apply jitter fix for smoother movement
 		velocity= velocity.lerp(Vector2.ZERO, 1.0 - jitter_fix)
 		
+		# collect all positions of nearby enemies we need to
+		# separate from to avoid overlaps and calculate the
+		# resulting velocity
 		for other_pos in get_overlapping_area_positions():
 			separate_from(other_pos, separation_weight)
 		
+		# also separate from the player, depending on the distance
 		separate_from(Global.player.position, player_separation_weight)
 
+		# add the target direction ( towards the enemy ) to our velocity
 		var target_dir: Vector2= (Global.player.position - position).normalized()
 		velocity+= target_dir * target_weight
 
+		# set the velocity to "maximum_speed", which currently
+		# acts more like a constant speed
 		velocity= velocity.normalized() * maximum_speed
 
 	# store the current position so we can fall back to it if the new position
 	# causes a collision with an obstacle
 	prev_position= position
+	
+	# move according to our velocity
 	position+= velocity * delta
 
 
+# find all colliders the Seperation Area overlaps with and
+# return their positions
 func get_overlapping_area_positions()-> Array[Vector2]:
 	var result: Array[Vector2]= []
 	
 	if dynamic_separation_area:
+		# update the position for our dynamic query, since it isn't
+		# linked to our node in any way
+		
 		query.transform.origin= position
+		
+		# look for intersecting shapes, which means looking for all overlaps
+		# between our Separation Shape and other enemies root Area.
+		# the amount of results can be tweaked with "max_intersect_results": 
+		# - with more results the separation becomes more precise, potentially
+		# accounting for more nearby enemies.
+		# - less results should mean more performance
 		var query_result= get_world_2d().direct_space_state.intersect_shape(query, max_intersect_results)
+		
 		if query_result:
 			for item in query_result:
 				result.append(item.collider.position)
@@ -129,6 +167,9 @@ func get_overlapping_area_positions()-> Array[Vector2]:
 	return result
 
 
+# adding velocity to move away from the given position
+# with the given weight and considering the distance to our
+# current position. the closer we are the greater the factor 
 func separate_from(other_pos: Vector2, weight: float):
 	var vec: Vector2= position - other_pos
 	if vec.is_zero_approx(): return
