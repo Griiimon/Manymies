@@ -2,9 +2,6 @@ class_name SimpleAreaSeparationEnemy
 extends BaseEnemy
 
 
-# if enabled this will dynamically trigger an intersect_shape()
-# query instead of using the Separation Area node
-@export var dynamic_separation_area: bool= true
 
 # importance of target direction for final velocity
 @export var target_weight: float= 10.0
@@ -34,9 +31,6 @@ extends BaseEnemy
 var velocity: Vector2
 var circle_shape: CircleShape2D
 
-# separation query for the outer area
-var query: PhysicsShapeQueryParameters2D
-
 # obstacle collision query for the inner area
 var obstacle_query: PhysicsShapeQueryParameters2D
 
@@ -53,31 +47,22 @@ var obstacle_collision_normal: Vector2
 
 
 func _ready() -> void:
-	if dynamic_separation_area:
-		# with a "dynamic" separation area we are getting rid off the 
-		# Separation Area-node and replace it with an immediate query to the 
-		# physics space when we need it. especially useful when skipping
-		# frames, since an Area-node would still be running overlap checks
-		# each frame, but with a query it will only if we say so
-		
-		# store the actual shape and get rid off the rest
-		circle_shape= separation_collision_shape.shape
-		separation_area.queue_free()
-		
-		# pre-building the query. each time we run it we need to 
-		# update the position ( transform.origin ) in the query to
-		# our current position
-		query= PhysicsShapeQueryParameters2D.new()
-		query.collide_with_bodies= false
-		query.collide_with_areas= true
-		query.collision_mask= Global.ENEMY_COLLISION_LAYER
-		query.shape= circle_shape
-		query.exclude= [(get_node(".") as Area2D).get_rid()]
-		query.transform= Transform2D.IDENTITY
-
-	else:
-		assert(separation_collision_shape.shape is CircleShape2D)
-		(separation_collision_shape.shape as CircleShape2D).radius= separation_radius
+	
+	# store the actual shape and get rid off the rest
+	circle_shape= separation_collision_shape.shape
+	separation_area.queue_free()
+	
+	# pre-building the query. each time we run it we need to 
+	# update the position ( transform.origin ) in the query to
+	# our current position
+	
+	if not AutoloadShapecast.initialized:
+		AutoloadShapecast.collide_with_bodies= false
+		AutoloadShapecast.collide_with_areas= true
+		AutoloadShapecast.collision_mask= Global.ENEMY_COLLISION_LAYER
+		AutoloadShapecast.shape= circle_shape
+		AutoloadShapecast.max_results= max_intersect_results
+		AutoloadShapecast.initialized= true
 
 	# pre-building the obstacle query
 	obstacle_query= PhysicsShapeQueryParameters2D.new()
@@ -143,26 +128,23 @@ func _physics_process(delta: float) -> void:
 func get_overlapping_area_positions()-> Array[Vector2]:
 	var result: Array[Vector2]= []
 	
-	if dynamic_separation_area:
 		# update the position for our dynamic query, since it isn't
 		# linked to our node in any way
 		
-		query.transform.origin= position
-		
-		# look for intersecting shapes, which means looking for all overlaps
-		# between our Separation Shape and other enemies root Area.
-		# the amount of results can be tweaked with "max_intersect_results": 
-		# - with more results the separation becomes more precise, potentially
-		# accounting for more nearby enemies.
-		# - less results should mean more performance
-		var query_result= get_world_2d().direct_space_state.intersect_shape(query, max_intersect_results)
-		
-		if query_result:
-			for item in query_result:
-				result.append(item.collider.position)
-	else:
-		for area in separation_area.get_overlapping_areas():
-			result.append(area.position)
+	AutoloadShapecast.position= position
+	AutoloadShapecast.force_update_transform()
+	#AutoloadShapecast.clear_exceptions()
+	#AutoloadShapecast.add_exception(get_node("."))
+	AutoloadShapecast.force_shapecast_update()
+
+	# look for intersecting shapes, which means looking for all overlaps
+	# between our Separation Shape and other enemies root Area.
+	# the amount of results can be tweaked with "max_intersect_results": 
+	# - with more results the separation becomes more precise, potentially
+	# accounting for more nearby enemies.
+	# - less results should mean more performance
+	for i in AutoloadShapecast.get_collision_count():
+			result.append(AutoloadShapecast.get_collider(i).position)
 	
 	return result
 

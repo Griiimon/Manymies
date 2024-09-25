@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://k2iqime2wgbk"]
+
+[ext_resource type="Script" path="res://solutions/autoload shapecast/autoload_shapecast.gd" id="1_tjufl"]
+
+[node name="Autoload Shapecast" type="ShapeCast2D"]
+exclude_parent = false
+target_position = Vector2(0, 0)
+script = ExtResource("1_tjufl")

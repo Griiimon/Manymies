@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Global="*res://global.gd"
+AutoloadShapecast="*res://solutions/autoload shapecast/autoload_shapecast.tscn"
 
 [layer_names]
 
