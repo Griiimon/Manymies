@@ -1,23 +1,31 @@
-[gd_scene load_steps=6 format=3 uid="uid://biwadydqgxpp6"]
+[gd_scene load_steps=7 format=3 uid="uid://biwadydqgxpp6"]
 
 [ext_resource type="PackedScene" uid="uid://qlbkcl8c2iiq" path="res://solutions/simple area enemy/simple_area_separation_enemy.tscn" id="1_7qhcx"]
 [ext_resource type="Script" path="res://main.gd" id="1_dgpgb"]
 [ext_resource type="PackedScene" uid="uid://clofdnjdjrkrv" path="res://player/player.tscn" id="2_ifar4"]
 [ext_resource type="PackedScene" uid="uid://c6luc6b0iruok" path="res://spawner/enemy_spawner.tscn" id="3_lwdj2"]
 [ext_resource type="PackedScene" uid="uid://bxj0a37myekah" path="res://ui.tscn" id="5_vbw41"]
+[ext_resource type="PackedScene" uid="uid://ci3ie4t05o0wt" path="res://solutions/area obstacles/area_obstacle.tscn" id="6_urqe8"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_dgpgb")
 
 [node name="Player" parent="." instance=ExtResource("2_ifar4")]
-position = Vector2(561, 328)
+position = Vector2(728, 438)
 player_speed = 1.0
 
 [node name="Enemy Spawner" parent="." instance=ExtResource("3_lwdj2")]
-position = Vector2(64, 64)
+position = Vector2(231, 174)
 enemy_scene = ExtResource("1_7qhcx")
 spawn_interval = 0.05
 
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="UI" parent="." instance=ExtResource("5_vbw41")]
+
+[node name="Area Obstacle" parent="." instance=ExtResource("6_urqe8")]
+position = Vector2(437, 240)
+
+[node name="Area Obstacle2" parent="." instance=ExtResource("6_urqe8")]
+position = Vector2(548, 331)
+rotation = -0.559952
