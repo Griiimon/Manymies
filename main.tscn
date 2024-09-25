@@ -19,6 +19,16 @@ position = Vector2(231, 174)
 enemy_scene = ExtResource("1_7qhcx")
 spawn_interval = 0.05
 
+[node name="Enemy Spawner2" parent="." instance=ExtResource("3_lwdj2")]
+position = Vector2(1058, 174)
+enemy_scene = ExtResource("1_7qhcx")
+spawn_interval = 0.05
+
+[node name="Enemy Spawner3" parent="." instance=ExtResource("3_lwdj2")]
+position = Vector2(528, 559)
+enemy_scene = ExtResource("1_7qhcx")
+spawn_interval = 0.05
+
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="UI" parent="." instance=ExtResource("5_vbw41")]
