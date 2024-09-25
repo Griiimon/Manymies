@@ -133,8 +133,8 @@ func get_overlapping_area_positions()-> Array[Vector2]:
 		
 	AutoloadShapecast.position= position
 	AutoloadShapecast.force_update_transform()
-	#AutoloadShapecast.clear_exceptions()
-	#AutoloadShapecast.add_exception(get_node("."))
+	AutoloadShapecast.clear_exceptions()
+	AutoloadShapecast.add_exception(get_node("."))
 	AutoloadShapecast.force_shapecast_update()
 
 	# look for intersecting shapes, which means looking for all overlaps
