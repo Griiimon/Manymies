@@ -1,7 +1,7 @@
 extends Node2D
 
 
-@export var pause_below_n_fps: int= 40
+@export var pause_below_n_fps: int= 20
 @onready var enemies: Node2D = $Enemies
 
 
