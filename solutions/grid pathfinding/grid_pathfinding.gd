@@ -1,6 +1,7 @@
 extends Pathfinder
 
-@export var GRID_SIZE: int= 65
+@export var GRID_WIDTH: int= 40
+@export var GRID_HEIGHT: int= 25
 
 var astar_grid: AStarGrid2D
 var cached_directions: Dictionary
@@ -10,7 +11,7 @@ var cached_directions: Dictionary
 func _ready() -> void:
 	super()
 	astar_grid= AStarGrid2D.new()
-	astar_grid.region = Rect2i(0, 0, GRID_SIZE, GRID_SIZE)
+	astar_grid.region = Rect2i(0, 0, GRID_WIDTH, GRID_HEIGHT)
 	astar_grid.cell_size = Vector2(Global.TILE_SIZE, Global.TILE_SIZE)
 
 	#astar_grid.update()
@@ -31,16 +32,16 @@ func update(player_pos: Vector2, non_blocking: bool= true):
 	var timer:= Stopwatch.new()
 	astar_grid.update()
 	
-	for x in GRID_SIZE:
-		for y in GRID_SIZE:
+	for x in GRID_WIDTH:
+		for y in GRID_HEIGHT:
 			var grid_coords:= Vector2i(x, y)
 			if Global.obstacle_tile_map.get_cell_source_id(grid_coords) != -1:
 				astar_grid.set_point_solid(grid_coords)
 
 	timer.stop("Pathfinder points update")
 	
-	for x in GRID_SIZE:
-		for y in GRID_SIZE:
+	for x in GRID_WIDTH:
+		for y in GRID_HEIGHT:
 			var grid_coords:= Vector2i(x, y)
 			var path: PackedVector2Array= astar_grid.get_point_path(grid_coords, player_grid_coords)
 			
