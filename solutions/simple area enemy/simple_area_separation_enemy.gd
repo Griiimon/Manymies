@@ -123,7 +123,13 @@ func _physics_process(delta: float) -> void:
 		separate_from(Global.player.position, player_separation_weight)
 
 		# add the target direction ( towards the enemy ) to our velocity
-		var target_dir: Vector2= (Global.player.position - position).normalized()
+		var target_dir: Vector2
+		if Global.pathfinder:
+			target_dir= Global.pathfinder.get_direction(position)
+		
+		if not target_dir:
+			target_dir= (Global.player.position - position).normalized()
+		
 		velocity+= target_dir * target_weight
 
 		# set the velocity to "maximum_speed", which currently
