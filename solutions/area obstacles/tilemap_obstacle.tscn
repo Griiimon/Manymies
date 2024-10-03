@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://qk7u77q3ybhb"]
+
+[ext_resource type="Script" path="res://solutions/area obstacles/tilemap_area_obstacle.gd" id="1_kxral"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5eu2m"]
+size = Vector2(32, 32)
+
+[node name="Tilemap Area Obstacle" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_kxral")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5eu2m")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

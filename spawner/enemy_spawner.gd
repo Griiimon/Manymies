@@ -5,6 +5,8 @@ extends Node2D
 
 @onready var timer: Timer = $Timer
 
+var paused:= false
+
 
 
 func _ready() -> void:
@@ -12,7 +14,13 @@ func _ready() -> void:
 	timer.start()
 
 
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("pause_spawner"):
+		paused= not paused
+
+
 func spawn_enemy():
+	if paused: return
 	var obj: BaseEnemy= enemy_scene.instantiate()
 	obj.position= position
 	Global.enemies.add_child(obj)
