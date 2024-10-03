@@ -7,3 +7,5 @@ const TILE_SIZE= 32
 
 var player: Player
 var enemies: Node2D
+var obstacle_tile_map: TileMapLayer
+var pathfinder: Pathfinder
