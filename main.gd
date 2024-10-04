@@ -19,4 +19,5 @@ func _process(delta: float) -> void:
 
 
 func update_pathfinder(non_blocking: bool= true):
-	Global.pathfinder.update(player.position, non_blocking)
+	if Global.pathfinder:
+		Global.pathfinder.update(player.position, non_blocking)
