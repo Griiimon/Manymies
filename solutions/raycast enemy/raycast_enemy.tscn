@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://dh5lms15sx10h"]
+
+[ext_resource type="Script" path="res://solutions/raycast enemy/raycast_enemy.gd" id="1_hrnmh"]
+[ext_resource type="Texture2D" uid="uid://bphsus0teml2m" path="res://icon.svg" id="1_y1t37"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n4syu"]
+
+[node name="Raycast Enemy" type="Area2D"]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_hrnmh")
+maximum_speed = 100.0
+skip_frames = 5
+num_side_raycasts = 2
+raycast_angle = 30.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.999816, 0.324359, 0.259192, 1)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("1_y1t37")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_n4syu")
+
+[node name="Head" type="Node2D" parent="."]
+
+[node name="RayCast2D Straight" type="RayCast2D" parent="Head"]
+unique_name_in_owner = true
+target_position = Vector2(30, 0)
+collision_mask = 13
+collide_with_areas = true
