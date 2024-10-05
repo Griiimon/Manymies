@@ -6,11 +6,12 @@ extends BaseEnemy
 # skip n calculation frames
 @export var skip_frames: int= 20
 
-# for smoother movement
-@export_range(0.0, 1.0) var jitter_fix= 0.5
-
 @export var ray_length: float= 25.0
+
+# how many rays on each side. the total amount will be num_side_raycasts * 2 + 1
 @export var num_side_raycasts: int= 1
+
+# the spread between each ray
 @export var raycast_angle: float= 45.0
 
 @onready var head: Node2D = $Head
@@ -18,7 +19,12 @@ extends BaseEnemy
 static var helper_initialized: bool= false
 
 var velocity: Vector2
+
+# offset the tick used for skip_frames by a random number so
+# it's more evenly spread out 
 var tick_offset: int
+
+# the target of the center raycast
 var center_marker: Marker2D
 
 
@@ -26,6 +32,7 @@ var center_marker: Marker2D
 func _ready():
 	tick_offset= randi() % 60
 
+	# initialize the RaycastHelper once with following values
 	if not helper_initialized:
 		RaycastHelper.collide_with_areas= true
 		RaycastHelper.collide_with_bodies= true
@@ -33,6 +40,7 @@ func _ready():
 		helper_initialized= true
 
 
+	# add markers to the head node, where the raycast target positions are supposed to be
 	var marker:= Marker2D.new()
 	marker.position= head.transform.x * ray_length
 	head.add_child(marker)
@@ -57,12 +65,14 @@ func _physics_process(delta: float) -> void:
 		# this code block will only run each n physics ticks
 		# where n is defined in skip_frames 
 		
-		# apply jitter fix for smoother movement
-		velocity= velocity.lerp(Vector2.ZERO, 1.0 - jitter_fix)
-		
 		var target_pos: Vector2= Global.player.position
-		head.global_transform= head.global_transform.interpolate_with(head.global_transform.looking_at(target_pos), 0.5)
+		if Global.pathfinder:
+			target_pos= position + Global.pathfinder.get_direction(position)
 		
+		# smoothly rotate the head ( and raycast marker children ) towards the target position
+		head.global_transform= head.global_transform.interpolate_with(head.global_transform.looking_at(target_pos), 0.5)
+
+		# steering vector combines all non-colliding steering raycasts
 		var steer_vec: Vector2= Vector2.ZERO
 		var center_blocked:= false
 		
@@ -75,10 +85,15 @@ func _physics_process(delta: float) -> void:
 
 		steer_vec= steer_vec.normalized()
 		
-		#if center_blocked: 
-			#if steer_vec.is_equal_approx(straight_raycast.target_position.rotated(straight_raycast.global_rotation).normalized()):
-				#steer_vec= Vector2.ZERO
-				#rotate(randf_range(-0.1, 0.1))
+		# if the center ray was blocked but the steering vector is perfectly centered
+		if center_blocked: 
+			if steer_vec.is_equal_approx((center_marker.global_position - head.global_position).normalized()):
+				# ..we shouldnt move
+				steer_vec= Vector2.ZERO
+				# ..but wiggle the head a little to maybe get a favorable angle the 
+				# next time we steer to potentially slide around an obstacle
+				head.rotate(randf_range(-0.3, 0.3))
+				
 					
 		velocity= maximum_speed * steer_vec
 	
