@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Global="*res://global.gd"
+RaycastHelper="*res://misc/raycast helper/raycast_helper.tscn"
 
 [input]
 

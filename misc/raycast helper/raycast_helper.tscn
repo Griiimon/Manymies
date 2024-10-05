@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://mv1rl1efp4u1"]
+
+[ext_resource type="Script" path="res://misc/raycast helper/raycast_helper.gd" id="1_48x76"]
+[ext_resource type="Script" path="res://misc/raycast helper/debug_canvas.gd" id="2_q3okg"]
+
+[node name="Raycast Helper" type="RayCast2D"]
+script = ExtResource("1_48x76")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Debug Canvas" type="Node2D" parent="CanvasLayer"]
+script = ExtResource("2_q3okg")
