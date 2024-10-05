@@ -10,9 +10,9 @@ collision_layer = 8
 collision_mask = 0
 script = ExtResource("1_hrnmh")
 maximum_speed = 100.0
-skip_frames = 5
+skip_frames = 10
 num_side_raycasts = 2
-raycast_angle = 30.0
+raycast_angle = 20.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.999816, 0.324359, 0.259192, 1)
