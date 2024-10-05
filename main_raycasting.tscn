@@ -51,7 +51,6 @@ tile_set = SubResource("TileSet_lvv4y")
 
 [node name="Pathfinding" type="Node" parent="."]
 script = ExtResource("7_tn3yg")
-enabled = false
 
 [node name="Timer Update" type="Timer" parent="Pathfinding"]
 autostart = true
