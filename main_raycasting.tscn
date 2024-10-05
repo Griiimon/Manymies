@@ -24,20 +24,58 @@ position = Vector2(605, 325)
 player_speed = 1.0
 
 [node name="Enemy Spawner" parent="." instance=ExtResource("3_v8eyl")]
-position = Vector2(231, 174)
+position = Vector2(106, 83)
 enemy_scene = ExtResource("4_vw8ob")
+spawn_interval = 0.05
 wait_for_empty_space = true
 empty_radius = 12.0
 
 [node name="Enemy Spawner2" parent="." instance=ExtResource("3_v8eyl")]
-position = Vector2(1058, 174)
+position = Vector2(1058, 62)
 enemy_scene = ExtResource("4_vw8ob")
+spawn_interval = 0.05
 wait_for_empty_space = true
 empty_radius = 12.0
 
 [node name="Enemy Spawner3" parent="." instance=ExtResource("3_v8eyl")]
 position = Vector2(528, 559)
 enemy_scene = ExtResource("4_vw8ob")
+spawn_interval = 0.05
+wait_for_empty_space = true
+empty_radius = 12.0
+
+[node name="Enemy Spawner4" parent="." instance=ExtResource("3_v8eyl")]
+position = Vector2(132, 559)
+enemy_scene = ExtResource("4_vw8ob")
+spawn_interval = 0.05
+wait_for_empty_space = true
+empty_radius = 12.0
+
+[node name="Enemy Spawner5" parent="." instance=ExtResource("3_v8eyl")]
+position = Vector2(1082, 559)
+enemy_scene = ExtResource("4_vw8ob")
+spawn_interval = 0.05
+wait_for_empty_space = true
+empty_radius = 12.0
+
+[node name="Enemy Spawner6" parent="." instance=ExtResource("3_v8eyl")]
+position = Vector2(1078, 312)
+enemy_scene = ExtResource("4_vw8ob")
+spawn_interval = 0.05
+wait_for_empty_space = true
+empty_radius = 12.0
+
+[node name="Enemy Spawner7" parent="." instance=ExtResource("3_v8eyl")]
+position = Vector2(111, 293)
+enemy_scene = ExtResource("4_vw8ob")
+spawn_interval = 0.05
+wait_for_empty_space = true
+empty_radius = 12.0
+
+[node name="Enemy Spawner8" parent="." instance=ExtResource("3_v8eyl")]
+position = Vector2(581, 40)
+enemy_scene = ExtResource("4_vw8ob")
+spawn_interval = 0.05
 wait_for_empty_space = true
 empty_radius = 12.0
 
@@ -51,8 +89,84 @@ tile_set = SubResource("TileSet_lvv4y")
 
 [node name="Pathfinding" type="Node" parent="."]
 script = ExtResource("7_tn3yg")
+NUM_SEARCHES_PER_FRAME = 20
 
 [node name="Timer Update" type="Timer" parent="Pathfinding"]
+wait_time = 0.5
 autostart = true
 
+[connection signal="area_entered" from="TileMapLayer Obstacles/Tilemap Area Obstacle" to="TileMapLayer Obstacles/Tilemap Area Obstacle" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62379" to="TileMapLayer Obstacles/@Area2D@62379" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62380" to="TileMapLayer Obstacles/@Area2D@62380" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62381" to="TileMapLayer Obstacles/@Area2D@62381" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62382" to="TileMapLayer Obstacles/@Area2D@62382" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62383" to="TileMapLayer Obstacles/@Area2D@62383" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62384" to="TileMapLayer Obstacles/@Area2D@62384" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62385" to="TileMapLayer Obstacles/@Area2D@62385" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62386" to="TileMapLayer Obstacles/@Area2D@62386" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62387" to="TileMapLayer Obstacles/@Area2D@62387" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62388" to="TileMapLayer Obstacles/@Area2D@62388" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62389" to="TileMapLayer Obstacles/@Area2D@62389" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62390" to="TileMapLayer Obstacles/@Area2D@62390" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62391" to="TileMapLayer Obstacles/@Area2D@62391" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62392" to="TileMapLayer Obstacles/@Area2D@62392" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62393" to="TileMapLayer Obstacles/@Area2D@62393" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62394" to="TileMapLayer Obstacles/@Area2D@62394" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62395" to="TileMapLayer Obstacles/@Area2D@62395" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62396" to="TileMapLayer Obstacles/@Area2D@62396" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62397" to="TileMapLayer Obstacles/@Area2D@62397" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62398" to="TileMapLayer Obstacles/@Area2D@62398" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62399" to="TileMapLayer Obstacles/@Area2D@62399" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62400" to="TileMapLayer Obstacles/@Area2D@62400" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62401" to="TileMapLayer Obstacles/@Area2D@62401" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62402" to="TileMapLayer Obstacles/@Area2D@62402" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62403" to="TileMapLayer Obstacles/@Area2D@62403" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62404" to="TileMapLayer Obstacles/@Area2D@62404" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62405" to="TileMapLayer Obstacles/@Area2D@62405" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62406" to="TileMapLayer Obstacles/@Area2D@62406" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62407" to="TileMapLayer Obstacles/@Area2D@62407" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62408" to="TileMapLayer Obstacles/@Area2D@62408" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62409" to="TileMapLayer Obstacles/@Area2D@62409" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62410" to="TileMapLayer Obstacles/@Area2D@62410" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62411" to="TileMapLayer Obstacles/@Area2D@62411" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62412" to="TileMapLayer Obstacles/@Area2D@62412" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62413" to="TileMapLayer Obstacles/@Area2D@62413" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62414" to="TileMapLayer Obstacles/@Area2D@62414" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62415" to="TileMapLayer Obstacles/@Area2D@62415" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62416" to="TileMapLayer Obstacles/@Area2D@62416" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62417" to="TileMapLayer Obstacles/@Area2D@62417" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62418" to="TileMapLayer Obstacles/@Area2D@62418" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62419" to="TileMapLayer Obstacles/@Area2D@62419" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62420" to="TileMapLayer Obstacles/@Area2D@62420" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62421" to="TileMapLayer Obstacles/@Area2D@62421" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62422" to="TileMapLayer Obstacles/@Area2D@62422" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62423" to="TileMapLayer Obstacles/@Area2D@62423" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62424" to="TileMapLayer Obstacles/@Area2D@62424" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62425" to="TileMapLayer Obstacles/@Area2D@62425" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62426" to="TileMapLayer Obstacles/@Area2D@62426" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62427" to="TileMapLayer Obstacles/@Area2D@62427" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62428" to="TileMapLayer Obstacles/@Area2D@62428" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62429" to="TileMapLayer Obstacles/@Area2D@62429" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62430" to="TileMapLayer Obstacles/@Area2D@62430" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62431" to="TileMapLayer Obstacles/@Area2D@62431" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62432" to="TileMapLayer Obstacles/@Area2D@62432" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62433" to="TileMapLayer Obstacles/@Area2D@62433" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62434" to="TileMapLayer Obstacles/@Area2D@62434" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62435" to="TileMapLayer Obstacles/@Area2D@62435" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62436" to="TileMapLayer Obstacles/@Area2D@62436" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62437" to="TileMapLayer Obstacles/@Area2D@62437" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62438" to="TileMapLayer Obstacles/@Area2D@62438" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62439" to="TileMapLayer Obstacles/@Area2D@62439" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62440" to="TileMapLayer Obstacles/@Area2D@62440" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62441" to="TileMapLayer Obstacles/@Area2D@62441" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62442" to="TileMapLayer Obstacles/@Area2D@62442" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62443" to="TileMapLayer Obstacles/@Area2D@62443" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62444" to="TileMapLayer Obstacles/@Area2D@62444" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62445" to="TileMapLayer Obstacles/@Area2D@62445" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62446" to="TileMapLayer Obstacles/@Area2D@62446" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62447" to="TileMapLayer Obstacles/@Area2D@62447" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62448" to="TileMapLayer Obstacles/@Area2D@62448" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62449" to="TileMapLayer Obstacles/@Area2D@62449" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62450" to="TileMapLayer Obstacles/@Area2D@62450" method="_on_area_entered"]
+[connection signal="area_entered" from="TileMapLayer Obstacles/@Area2D@62451" to="TileMapLayer Obstacles/@Area2D@62451" method="_on_area_entered"]
 [connection signal="timeout" from="Pathfinding/Timer Update" to="." method="update_pathfinder"]
