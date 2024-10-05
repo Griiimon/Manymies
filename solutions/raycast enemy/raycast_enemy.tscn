@@ -23,9 +23,3 @@ texture = ExtResource("1_y1t37")
 shape = SubResource("CircleShape2D_n4syu")
 
 [node name="Head" type="Node2D" parent="."]
-
-[node name="RayCast2D Straight" type="RayCast2D" parent="Head"]
-unique_name_in_owner = true
-target_position = Vector2(30, 0)
-collision_mask = 13
-collide_with_areas = true
