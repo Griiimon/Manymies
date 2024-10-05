@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Manymies"
-run/main_scene="res://main.tscn"
+run/main_scene="res://main_raycasting.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -32,6 +32,7 @@ pause_spawner={
 2d_physics/layer_1="Player"
 2d_physics/layer_2="Enemies"
 2d_physics/layer_3="Obstacles"
+2d_physics/layer_4="Raycast Enemies"
 
 [physics]
 
