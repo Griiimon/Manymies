@@ -61,7 +61,7 @@ func _physics_process(delta: float) -> void:
 		velocity= velocity.lerp(Vector2.ZERO, 1.0 - jitter_fix)
 		
 		var target_pos: Vector2= Global.player.position
-		transform= transform.interpolate_with(transform.looking_at(target_pos), 0.5)
+		head.global_transform= head.global_transform.interpolate_with(head.global_transform.looking_at(target_pos), 0.5)
 		
 		var steer_vec: Vector2= Vector2.ZERO
 		var center_blocked:= false
@@ -69,7 +69,7 @@ func _physics_process(delta: float) -> void:
 		for marker: Marker2D in head.get_children():
 			RaycastHelper.update(head.global_position, marker.global_position)
 			if not RaycastHelper.is_colliding():
-				steer_vec+= (marker.global_position - head.global_position).normalized()#raycast.target_position.rotated(raycast.global_rotation)
+				steer_vec+= (marker.global_position - head.global_position).normalized()
 			elif marker == center_marker:
 				center_blocked= true
 
