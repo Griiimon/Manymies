@@ -1,7 +1,8 @@
 class_name Pathfinder
-extends Node
+extends Node2D
 
 @export var enabled: bool= true
+@export var debug: bool= false
 
 var busy: bool= false
 
