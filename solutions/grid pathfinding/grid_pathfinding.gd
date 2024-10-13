@@ -72,13 +72,16 @@ func update(player_pos: Vector2, non_blocking: bool= false):
 				var neighbor: Vector2i= key + Vector2i(x, y)
 				if flow_field.has(neighbor) and flow_field[neighbor] < lowest:
 					lowest= flow_field[neighbor]
-					cached_directions[key]= Vector2(neighbor - key)
+					cached_directions[key]= Vector2(neighbor - key).normalized()
 		
 		#if non_blocking and y % NUM_SEARCHES_PER_FRAME == 0:
 			#await get_tree().process_frame
 
 	#print("Pathfinder updated")
 	busy= false
+
+	if debug:
+		queue_redraw()
 
 
 func get_direction(from: Vector2)-> Vector2:
@@ -90,3 +93,14 @@ func get_direction(from: Vector2)-> Vector2:
 
 func get_grid_coords(pos: Vector2)-> Vector2i:
 	return pos / Global.TILE_SIZE
+
+
+func _draw():
+	if not debug: return
+	
+	for key: Vector2i in cached_directions:
+		var center:= Vector2(key * Global.TILE_SIZE) + Vector2.ONE * Global.TILE_SIZE / 2
+		var dir: Vector2= get_direction(center)
+		
+		draw_circle(center, 5, Color.AQUA, true)
+		draw_line(center, center + dir * 20, Color.AQUA, 2)
