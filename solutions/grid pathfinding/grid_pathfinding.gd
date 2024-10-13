@@ -68,10 +68,11 @@ func update(player_pos: Vector2, non_blocking: bool= false):
 		var lowest:= 99
 		for x in range(-1, 2):
 			for y in range(-1, 2):
-				var neighbor: Vector2i= key + Vector2i(x, y)
-				if flow_field.has(neighbor) and flow_field[neighbor] < lowest:
-					lowest= flow_field[neighbor]
-					cached_directions[key]= Vector2(neighbor - key).normalized()
+				if x == 0 or y == 0:
+					var neighbor: Vector2i= key + Vector2i(x, y)
+					if flow_field.has(neighbor) and flow_field[neighbor] < lowest:
+						lowest= flow_field[neighbor]
+						cached_directions[key]= Vector2(neighbor - key).normalized()
 
 	if debug:
 		queue_redraw()
