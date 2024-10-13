@@ -3,9 +3,6 @@ extends Pathfinder
 @export var GRID_WIDTH: int= 40
 @export var GRID_HEIGHT: int= 25
 
-# path search can be expensive so we limit them to n per frame
-@export var NUM_SEARCHES_PER_FRAME: int= 10
-
 
 var flow_field: Dictionary
 
@@ -22,14 +19,7 @@ func _ready() -> void:
 	super()
 
 
-# with non_blocking set to true we run a poor-mans threaded version
 func update(player_pos: Vector2, non_blocking: bool= false):
-	# in non_blocking mode this function can take a lot of frames to finish and is
-	# running in parallel, so we need to avoid running several update() concurrently
-	if busy: 
-		#print("Pathfinder busy")
-		return
-	
 	var player_grid_coords: Vector2i= get_grid_coords(player_pos)
 
 	if previous_player_grid_coords and previous_player_grid_coords == player_grid_coords:
@@ -37,35 +27,44 @@ func update(player_pos: Vector2, non_blocking: bool= false):
 
 	previous_player_grid_coords= player_grid_coords
 
-	busy= true
 
 	flow_field.clear()
 	
 	var rect:= Rect2i(player_grid_coords - Vector2i(GRID_WIDTH, GRID_HEIGHT) / 2, Vector2i(GRID_WIDTH, GRID_HEIGHT))
 
+	# start the flow field from the players grid coords with a value of 0
 	var active_points: Array[Vector2i]= []
 	active_points.append(player_grid_coords)
 	flow_field[player_grid_coords]= 0
 	
 	while not active_points.is_empty():
+		# for each active point add all neighbor grid positions to the active points list,
+		# that are inside the rect, arent part of the flow field yet and arent an obstacle
+		
 		var active_point: Vector2i= active_points[0]
 		for x in range(-1, 2):
 			for y in range(-1, 2):
 				var point:= Vector2i(x, y)
-				point+= player_grid_coords
+				point+= active_points[0]
 				if not point in active_points and rect.has_point(point):
 					if Global.obstacle_tile_map.get_cell_source_id(point) == -1:
 						if not flow_field.has(point):
 							active_points.append(point)
+							# the new point has a value of the current point + 1
 							flow_field[point]= flow_field[active_point] + 1
 						else:
+							# if this point is already part of the flow field choose
+							# the lowest value
 							flow_field[point]= min(flow_field[point], flow_field[active_point] + 1)
 		
+		# remove this point from the active points list
 		active_points.remove_at(0)
 
 	cached_directions.clear()
 
 	for key: Vector2i in flow_field.keys():
+		# find the lowest valued neighbor to each flow field point and set it as the
+		# preferred direction from there 
 		var lowest:= 99
 		for x in range(-1, 2):
 			for y in range(-1, 2):
@@ -73,12 +72,6 @@ func update(player_pos: Vector2, non_blocking: bool= false):
 				if flow_field.has(neighbor) and flow_field[neighbor] < lowest:
 					lowest= flow_field[neighbor]
 					cached_directions[key]= Vector2(neighbor - key).normalized()
-		
-		#if non_blocking and y % NUM_SEARCHES_PER_FRAME == 0:
-			#await get_tree().process_frame
-
-	#print("Pathfinder updated")
-	busy= false
 
 	if debug:
 		queue_redraw()
