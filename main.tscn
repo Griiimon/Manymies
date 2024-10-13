@@ -50,7 +50,6 @@ tile_set = SubResource("TileSet_lvv4y")
 script = ExtResource("7_7xlm0")
 GRID_WIDTH = 60
 GRID_HEIGHT = 40
-debug = true
 
 [node name="Timer Update" type="Timer" parent="Pathfinding"]
 autostart = true
