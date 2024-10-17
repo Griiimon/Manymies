@@ -44,19 +44,20 @@ func update(player_pos: Vector2, non_blocking: bool= false):
 		var active_point: Vector2i= active_points[0]
 		for x in range(-1, 2):
 			for y in range(-1, 2):
-				var point:= Vector2i(x, y)
-				point+= active_points[0]
-				if not point in active_points and rect.has_point(point):
-					if Global.obstacle_tile_map.get_cell_source_id(point) == -1:
-						if not flow_field.has(point):
-							active_points.append(point)
-							# the new point has a value of the current point + 1
-							flow_field[point]= flow_field[active_point] + 1
-						else:
-							# if this point is already part of the flow field choose
-							# the lowest value
-							flow_field[point]= min(flow_field[point], flow_field[active_point] + 1)
-		
+				if x == 0 or y == 0:
+					var point:= Vector2i(x, y)
+					point+= active_points[0]
+					if not point in active_points and rect.has_point(point):
+						if Global.obstacle_tile_map.get_cell_source_id(point) == -1:
+							if not flow_field.has(point):
+								active_points.append(point)
+								# the new point has a value of the current point + 1
+								flow_field[point]= flow_field[active_point] + 1
+							else:
+								# if this point is already part of the flow field choose
+								# the lowest value
+								flow_field[point]= min(flow_field[point], flow_field[active_point] + 1)
+			
 		# remove this point from the active points list
 		active_points.remove_at(0)
 
