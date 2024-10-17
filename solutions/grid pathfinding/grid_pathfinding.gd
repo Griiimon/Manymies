@@ -2,7 +2,7 @@ extends Pathfinder
 
 @export var GRID_WIDTH: int= 40
 @export var GRID_HEIGHT: int= 25
-
+@export var allow_diagonals: bool= false
 
 var flow_field: Dictionary
 
@@ -44,7 +44,7 @@ func update(player_pos: Vector2, non_blocking: bool= false):
 		var active_point: Vector2i= active_points[0]
 		for x in range(-1, 2):
 			for y in range(-1, 2):
-				if x == 0 or y == 0:
+				if x == 0 or y == 0 or allow_diagonals:
 					var point:= Vector2i(x, y)
 					point+= active_points[0]
 					if not point in active_points and rect.has_point(point):
@@ -69,7 +69,7 @@ func update(player_pos: Vector2, non_blocking: bool= false):
 		var lowest:= 99
 		for x in range(-1, 2):
 			for y in range(-1, 2):
-				if x == 0 or y == 0:
+				if x == 0 or y == 0 or allow_diagonals:
 					var neighbor: Vector2i= key + Vector2i(x, y)
 					if flow_field.has(neighbor) and flow_field[neighbor] < lowest:
 						lowest= flow_field[neighbor]
