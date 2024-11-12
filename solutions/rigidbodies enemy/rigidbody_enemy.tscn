@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://c47x2nyrpfvd3"]
+
+[ext_resource type="Script" path="res://solutions/rigidbodies enemy/rigidbody_enemy.gd" id="1_mas6c"]
+[ext_resource type="Texture2D" uid="uid://bphsus0teml2m" path="res://icon.svg" id="2_kgpy1"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_sqonq"]
+friction = 0.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j80tl"]
+
+[node name="Rigidbody Enemy" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 7
+physics_material_override = SubResource("PhysicsMaterial_sqonq")
+gravity_scale = 0.0
+lock_rotation = true
+linear_damp_mode = 1
+angular_damp_mode = 1
+script = ExtResource("1_mas6c")
+maximum_speed = 50.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.999816, 0.324359, 0.259192, 1)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("2_kgpy1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_j80tl")
