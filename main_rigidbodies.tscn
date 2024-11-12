@@ -1,0 +1,103 @@
+[gd_scene load_steps=12 format=4 uid="uid://dusiequnrdi6g"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_860ll"]
+[ext_resource type="PackedScene" uid="uid://clofdnjdjrkrv" path="res://player/player.tscn" id="2_fexqb"]
+[ext_resource type="PackedScene" uid="uid://c6luc6b0iruok" path="res://spawner/enemy_spawner.tscn" id="3_gu6fo"]
+[ext_resource type="PackedScene" uid="uid://c47x2nyrpfvd3" path="res://solutions/rigidbodies enemy/rigidbody_enemy.tscn" id="4_w3f58"]
+[ext_resource type="PackedScene" uid="uid://bxj0a37myekah" path="res://ui.tscn" id="5_v45an"]
+[ext_resource type="PackedScene" uid="uid://qk7u77q3ybhb" path="res://solutions/area obstacles/tilemap_obstacle.tscn" id="6_3qy4r"]
+[ext_resource type="Texture2D" uid="uid://d0jgegihkr2y8" path="res://textures/wall.png" id="7_j0ijw"]
+[ext_resource type="Script" path="res://solutions/grid pathfinding/grid_pathfinding.gd" id="7_ktpfw"]
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_uqtdv"]
+scenes/1/scene = ExtResource("6_3qy4r")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2sahl"]
+texture = ExtResource("7_j0ijw")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+0:0/0/physics_layer_0/polygon_1/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[sub_resource type="TileSet" id="TileSet_4ggjr"]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 4
+physics_layer_0/collision_mask = 0
+sources/0 = SubResource("TileSetScenesCollectionSource_uqtdv")
+sources/1 = SubResource("TileSetAtlasSource_2sahl")
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_860ll")
+pause_below_n_fps = 0
+
+[node name="Player" parent="." instance=ExtResource("2_fexqb")]
+position = Vector2(605, 325)
+player_speed = 1.0
+
+[node name="Enemy Spawner" parent="." instance=ExtResource("3_gu6fo")]
+position = Vector2(106, 83)
+enemy_scene = ExtResource("4_w3f58")
+spawn_interval = 0.01
+empty_radius = 12.0
+
+[node name="Enemy Spawner2" parent="." instance=ExtResource("3_gu6fo")]
+position = Vector2(1058, 62)
+enemy_scene = ExtResource("4_w3f58")
+spawn_interval = 0.01
+empty_radius = 12.0
+
+[node name="Enemy Spawner3" parent="." instance=ExtResource("3_gu6fo")]
+position = Vector2(528, 559)
+enemy_scene = ExtResource("4_w3f58")
+spawn_interval = 0.01
+empty_radius = 12.0
+
+[node name="Enemy Spawner4" parent="." instance=ExtResource("3_gu6fo")]
+position = Vector2(132, 559)
+enemy_scene = ExtResource("4_w3f58")
+spawn_interval = 0.01
+empty_radius = 12.0
+
+[node name="Enemy Spawner5" parent="." instance=ExtResource("3_gu6fo")]
+position = Vector2(1082, 559)
+enemy_scene = ExtResource("4_w3f58")
+spawn_interval = 0.01
+empty_radius = 12.0
+
+[node name="Enemy Spawner6" parent="." instance=ExtResource("3_gu6fo")]
+position = Vector2(1078, 312)
+enemy_scene = ExtResource("4_w3f58")
+spawn_interval = 0.01
+empty_radius = 12.0
+
+[node name="Enemy Spawner7" parent="." instance=ExtResource("3_gu6fo")]
+position = Vector2(111, 293)
+enemy_scene = ExtResource("4_w3f58")
+spawn_interval = 0.01
+empty_radius = 12.0
+
+[node name="Enemy Spawner8" parent="." instance=ExtResource("3_gu6fo")]
+position = Vector2(581, 40)
+enemy_scene = ExtResource("4_w3f58")
+spawn_interval = 0.01
+empty_radius = 12.0
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="UI" parent="." instance=ExtResource("5_v45an")]
+
+[node name="TileMapLayer Obstacles" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAKAAMAAQAAAAAAAAALAAMAAQAAAAAAAAAMAAMAAQAAAAAAAAANAAMAAQAAAAAAAAAOAAMAAQAAAAAAAAAPAAMAAQAAAAAAAAAQAAMAAQAAAAAAAAARAAMAAQAAAAAAAAASAAMAAQAAAAAAAAATAAMAAQAAAAAAAAAUAAMAAQAAAAAAAAAVAAMAAQAAAAAAAAAWAAMAAQAAAAAAAAAXAAMAAQAAAAAAAAAYAAMAAQAAAAAAAAAZAAMAAQAAAAAAAAAaAAMAAQAAAAAAAAAaAAQAAQAAAAAAAAAaAAUAAQAAAAAAAAAaAAYAAQAAAAAAAAAaAAcAAQAAAAAAAAAaAAgAAQAAAAAAAAAaAAkAAQAAAAAAAAAaAAoAAQAAAAAAAAAaAAsAAQAAAAAAAAAaAAwAAQAAAAAAAAAaAA0AAQAAAAAAAAAaAA4AAQAAAAAAAAAaAA8AAQAAAAAAAAAZAA8AAQAAAAAAAAAYAA8AAQAAAAAAAAAXAA8AAQAAAAAAAAAWAA8AAQAAAAAAAAAVAA8AAQAAAAAAAAAUAA8AAQAAAAAAAAATAA8AAQAAAAAAAAASAA8AAQAAAAAAAAARAA8AAQAAAAAAAAAQAA8AAQAAAAAAAAAPAA8AAQAAAAAAAAAOAA8AAQAAAAAAAAANAA8AAQAAAAAAAAAMAA8AAQAAAAAAAAAMAA4AAQAAAAAAAAAMAA0AAQAAAAAAAAAMAAwAAQAAAAAAAAAMAAsAAQAAAAAAAAAMAAoAAQAAAAAAAAAMAAkAAQAAAAAAAAAMAAgAAQAAAAAAAAAMAAcAAQAAAAAAAAANAAcAAQAAAAAAAAAOAAcAAQAAAAAAAAAPAAcAAQAAAAAAAAAQAAcAAQAAAAAAAAARAAcAAQAAAAAAAAASAAcAAQAAAAAAAAATAAcAAQAAAAAAAAAUAAcAAQAAAAAAAAAVAAcAAQAAAAAAAAAWAAcAAQAAAAAAAAAWAAgAAQAAAAAAAAAWAAkAAQAAAAAAAAAWAAoAAQAAAAAAAAAWAAsAAQAAAAAAAAAWAAwAAQAAAAAAAAAVAAwAAQAAAAAAAAAUAAwAAQAAAAAAAAATAAwAAQAAAAAAAAASAAwAAQAAAAAAAAARAAwAAQAAAAAAAAAQAAwAAQAAAAAAAAAQAAsAAQAAAAAAAAAQAAoAAQAAAAAAAAA=")
+tile_set = SubResource("TileSet_4ggjr")
+
+[node name="Pathfinding" type="Node2D" parent="."]
+script = ExtResource("7_ktpfw")
+GRID_WIDTH = 60
+GRID_HEIGHT = 40
+allow_diagonals = true
+
+[node name="Timer Update" type="Timer" parent="Pathfinding"]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="Pathfinding/Timer Update" to="." method="update_pathfinder"]
