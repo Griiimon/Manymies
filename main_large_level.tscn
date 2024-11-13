@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://dw8u8e5g3g5sf"]
+[gd_scene load_steps=11 format=4 uid="uid://dw8u8e5g3g5sf"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_8wku6"]
 [ext_resource type="PackedScene" uid="uid://clofdnjdjrkrv" path="res://player/player.tscn" id="2_eld4b"]
@@ -6,12 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://c6luc6b0iruok" path="res://spawner/enemy_spawner.tscn" id="3_b6sb4"]
 [ext_resource type="PackedScene" uid="uid://c47x2nyrpfvd3" path="res://solutions/rigidbodies enemy/rigidbody_enemy.tscn" id="4_n41wa"]
 [ext_resource type="PackedScene" uid="uid://bxj0a37myekah" path="res://ui.tscn" id="5_c3bao"]
-[ext_resource type="PackedScene" uid="uid://qk7u77q3ybhb" path="res://solutions/area obstacles/tilemap_obstacle.tscn" id="6_ivuqn"]
 [ext_resource type="Texture2D" uid="uid://d0jgegihkr2y8" path="res://textures/wall.png" id="7_lgv87"]
 [ext_resource type="Script" path="res://solutions/large_level_pathfinder.gd" id="8_w0axd"]
-
-[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_uqtdv"]
-scenes/1/scene = ExtResource("6_ivuqn")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2sahl"]
 texture = ExtResource("7_lgv87")
@@ -24,7 +20,6 @@ texture_region_size = Vector2i(32, 32)
 tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 4
 physics_layer_0/collision_mask = 0
-sources/0 = SubResource("TileSetScenesCollectionSource_uqtdv")
 sources/1 = SubResource("TileSetAtlasSource_2sahl")
 
 [node name="Main" type="Node2D"]
