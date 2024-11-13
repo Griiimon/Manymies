@@ -32,6 +32,11 @@ func _ready():
 		#assert(rect == tile_map.get_used_rect(), str(tile_map.get_used_rect()))
 
 
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("ui_select"):
+		queue_redraw()
+
+
 func get_direction(from: Vector2)-> Vector2:
 	if dynamic_flow_field.rect.has_point(get_grid_coords(from)):
 		return dynamic_flow_field.get_direction(from)
@@ -66,11 +71,10 @@ func update(player_pos: Vector2, non_blocking: bool= true):
 			lowest_distance= new_distance
 
 
-	queue_redraw()
-
-
 func _draw():
 	if not debug_mode: return
+	if not is_inside_tree() or not Global.player: return
+	
 	busy= true
 	
 	closest_waypoint_flow_field.debug_draw(self, Color.BLUE_VIOLET)
