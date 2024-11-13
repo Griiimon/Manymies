@@ -102,6 +102,8 @@ tile_set = SubResource("TileSet_4ggjr")
 script = ExtResource("8_w0axd")
 tile_map = NodePath("../TileMapLayer Obstacles")
 debug_mode = true
+enabled = null
+debug = null
 
 [node name="Timer Update" type="Timer" parent="Pathfinding"]
 wait_time = 0.5
