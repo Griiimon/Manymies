@@ -6,6 +6,7 @@ extends Pathfinder
 
 var dynamic_flow_field: DirectionFlowField
 var static_flow_fields: Array[DirectionFlowField]
+var closest_waypoint_flow_field: DirectionFlowField
 
 var previous_player_grid_coords= null
 
@@ -37,21 +38,10 @@ func get_direction(from: Vector2)-> Vector2:
 
 	var player_grid_coords: Vector2i= get_grid_coords(Global.player.position)
 
-	var best_flow_field: DirectionFlowField
-	var lowest_distance: float
-	
-	for field in static_flow_fields:
-		var new_distance: float= field.origin.distance_to(player_grid_coords)
-		if not best_flow_field or new_distance < lowest_distance:
-			best_flow_field= field
-			lowest_distance= new_distance
-
-	if not best_flow_field:
+	if not closest_waypoint_flow_field:
 		return Vector2.ZERO
 
-	#prints("Chose FlowField", best_flow_field.origin, "for player coords", player_grid_coords)
-
-	return best_flow_field.get_direction(from)
+	return closest_waypoint_flow_field.get_direction(from)
 
 
 func update(player_pos: Vector2, non_blocking: bool= true):
@@ -64,10 +54,29 @@ func update(player_pos: Vector2, non_blocking: bool= true):
 	
 	dynamic_flow_field.build(player_grid_coords)
 
+	closest_waypoint_flow_field= null
+	var lowest_distance: float
+	
+	for field in static_flow_fields:
+		var new_distance: float= field.origin.distance_to(player_grid_coords)
+		if not closest_waypoint_flow_field or new_distance < lowest_distance:
+			closest_waypoint_flow_field= field
+			lowest_distance= new_distance
+
+
 	queue_redraw()
 
 
 func _draw():
 	if not debug_mode: return
 	
-	dynamic_flow_field.debug_draw(self)
+	dynamic_flow_field.debug_draw(self, Color.RED)
+	closest_waypoint_flow_field.debug_draw(self, Color.BLUE_VIOLET)
+	
+	for flow_field in static_flow_fields:
+		var global_pos: Vector2= flow_field.origin * Global.TILE_SIZE + Vector2i.ONE * Global.TILE_SIZE / 2
+		var color: Color= Color.GREEN if flow_field == closest_waypoint_flow_field else Color.YELLOW
+		draw_circle(global_pos, Global.TILE_SIZE, color, false, 5)
+
+		if flow_field == closest_waypoint_flow_field:
+			draw_line(global_pos, Global.player.position, Color.ORANGE, 3)
