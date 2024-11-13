@@ -2,6 +2,7 @@ extends Pathfinder
 
 @export var tile_map: TileMapLayer
 @export var dynamic_field_size: Vector2i= Vector2i(60, 40)
+@export var debug_mode: bool= false
 
 var dynamic_flow_field: DirectionFlowField
 var static_flow_fields: Array[DirectionFlowField]
@@ -62,3 +63,11 @@ func update(player_pos: Vector2, non_blocking: bool= true):
 	previous_player_grid_coords= player_grid_coords
 	
 	dynamic_flow_field.build(player_grid_coords)
+
+	queue_redraw()
+
+
+func _draw():
+	if not debug_mode: return
+	
+	dynamic_flow_field.debug_draw(self)
