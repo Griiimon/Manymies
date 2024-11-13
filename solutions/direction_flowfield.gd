@@ -28,3 +28,12 @@ func get_direction(from: Vector2)-> Vector2:
 	if not cached_directions.has(grid_coords):
 		return Vector2.ZERO
 	return cached_directions[grid_coords]
+
+
+func debug_draw(canvas: CanvasItem, color: Color):
+	for key: Vector2i in cached_directions:
+		var center:= Vector2(key * Global.TILE_SIZE) + Vector2.ONE * Global.TILE_SIZE / 2
+		var dir: Vector2= get_direction(center)
+		
+		canvas.draw_circle(center, 5, color, true)
+		canvas.draw_line(center, center + dir * 20, color, 2)
