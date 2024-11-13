@@ -77,11 +77,11 @@ func _draw():
 	
 	busy= true
 	
-	closest_waypoint_flow_field.debug_draw(self, Color.BLUE_VIOLET)
-	dynamic_flow_field.debug_draw(self, Color.RED)
+	closest_waypoint_flow_field.debug_draw(self, tile_map, Color.BLUE_VIOLET)
+	dynamic_flow_field.debug_draw(self, tile_map, Color.RED)
 	
 	for flow_field in static_flow_fields:
-		var global_pos: Vector2= flow_field.origin * Global.TILE_SIZE + Vector2i.ONE * Global.TILE_SIZE / 2
+		var global_pos: Vector2= tile_map.map_to_local(flow_field.origin)
 		var color: Color= Color.GREEN if flow_field == closest_waypoint_flow_field else Color.YELLOW
 		draw_circle(global_pos, Global.TILE_SIZE, color, false, 5)
 
