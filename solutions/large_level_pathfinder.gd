@@ -45,6 +45,8 @@ func get_direction(from: Vector2)-> Vector2:
 
 
 func update(player_pos: Vector2, non_blocking: bool= true):
+	if busy: return
+	
 	var player_grid_coords: Vector2i= get_grid_coords(player_pos)
 
 	if previous_player_grid_coords and previous_player_grid_coords == player_grid_coords:
@@ -69,9 +71,10 @@ func update(player_pos: Vector2, non_blocking: bool= true):
 
 func _draw():
 	if not debug_mode: return
+	busy= true
 	
-	dynamic_flow_field.debug_draw(self, Color.RED)
 	closest_waypoint_flow_field.debug_draw(self, Color.BLUE_VIOLET)
+	dynamic_flow_field.debug_draw(self, Color.RED)
 	
 	for flow_field in static_flow_fields:
 		var global_pos: Vector2= flow_field.origin * Global.TILE_SIZE + Vector2i.ONE * Global.TILE_SIZE / 2
@@ -80,3 +83,5 @@ func _draw():
 
 		if flow_field == closest_waypoint_flow_field:
 			draw_line(global_pos, Global.player.position, Color.ORANGE, 3)
+
+	busy= false
