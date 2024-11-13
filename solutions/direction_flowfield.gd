@@ -30,10 +30,10 @@ func get_direction(from: Vector2)-> Vector2:
 	return cached_directions[grid_coords]
 
 
-func debug_draw(canvas: CanvasItem, color: Color):
+func debug_draw(canvas: CanvasItem, tile_map: TileMapLayer, color: Color):
 	for key: Vector2i in cached_directions:
-		var center:= Vector2(key * Global.TILE_SIZE) + Vector2.ONE * Global.TILE_SIZE / 2
+		var center:= tile_map.map_to_local(key)
 		var dir: Vector2= get_direction(center)
-		
+			
 		canvas.draw_circle(center, 5, color, true)
 		canvas.draw_line(center, center + dir * 20, color, 2)
