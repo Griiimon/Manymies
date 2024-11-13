@@ -46,5 +46,6 @@ theme_override_constants/margin_bottom = 10
 
 [node name="Label Help" type="Label" parent="MarginContainer2"]
 layout_mode = 2
-text = "Hold left mouse button to move player, press 'P' to toggle spawners"
+text = "Hold left mouse button to move player, press 'P' to toggle spawners
+Arrow keys to move the Camera, PageUp/Down to zoom"
 label_settings = SubResource("LabelSettings_10vpg")
