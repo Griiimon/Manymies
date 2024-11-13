@@ -86,10 +86,6 @@ func get_direction(from: Vector2)-> Vector2:
 	return cached_directions[grid_coords]
 
 
-func get_grid_coords(pos: Vector2)-> Vector2i:
-	return pos / Global.TILE_SIZE
-
-
 func _draw():
 	if not debug: return
 	
