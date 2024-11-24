@@ -13,7 +13,7 @@ func build(_origin: Vector2i):
 	for key: Vector2i in field.keys():
 		# find the lowest valued neighbor to each flow field point and set it as the
 		# preferred direction from there 
-		var lowest:= 999999
+		var lowest:= 999999.9
 		for x in range(-1, 2):
 			for y in range(-1, 2):
 				if x == 0 or y == 0 or allow_diagonals:

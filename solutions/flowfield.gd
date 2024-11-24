@@ -8,7 +8,7 @@ var origin: Vector2i
 var size: Vector2i
 var rect: Rect2i
 
-var allow_diagonals:= false
+var allow_diagonals:= true
 
 
 
@@ -30,7 +30,7 @@ func build(_origin: Vector2i):
 	# start the flow field from the origin with a value of 0
 	var active_points: Array[Vector2i]= []
 	active_points.append(origin)
-	field[origin]= 0
+	field[origin]= 0.0
 	
 	while not active_points.is_empty():
 		# for each active point add all neighbor grid positions to the active points list,
@@ -47,11 +47,11 @@ func build(_origin: Vector2i):
 							if not field.has(point):
 								active_points.append(point)
 								# the new point has a value of the current point + 1
-								field[point]= field[active_point] + 1
+								field[point]= field[active_point] + sqrt(abs(x) + abs(y))
 							else:
 								# if this point is already part of the flow field choose
 								# the lowest value
-								field[point]= min(field[point], field[active_point] + 1)
+								field[point]= min(field[point], field[active_point] + sqrt(abs(x) + abs(y)))
 			
 		# remove this point from the active points list
 		active_points.remove_at(0)
