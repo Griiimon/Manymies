@@ -37,3 +37,5 @@ func debug_draw(canvas: CanvasItem, tile_map: TileMapLayer, color: Color):
 			
 		canvas.draw_circle(center, 5, color, true)
 		canvas.draw_line(center, center + dir * 20, color, 2)
+
+	#super(canvas, tile_map, color)
