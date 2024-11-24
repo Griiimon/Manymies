@@ -11,6 +11,9 @@ extends Node2D
 func _ready() -> void:
 	Global.enemies= enemies
 	Global.obstacle_tile_map= $"TileMapLayer Obstacles"
+	var dummy_label: Label= get_node_or_null("Dummy")
+	if dummy_label:
+		Global.font= dummy_label.get_theme_default_font()
 	update_pathfinder(false)
 
 

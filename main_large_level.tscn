@@ -102,8 +102,6 @@ tile_set = SubResource("TileSet_4ggjr")
 script = ExtResource("8_w0axd")
 tile_map = NodePath("../TileMapLayer Obstacles")
 debug_mode = true
-enabled = null
-debug = null
 
 [node name="Timer Update" type="Timer" parent="Pathfinding"]
 wait_time = 0.5
@@ -128,5 +126,9 @@ gizmo_extents = 300.0
 [node name="Marker2D5" type="Marker2D" parent="Pathfinding"]
 position = Vector2(815, 271)
 gizmo_extents = 300.0
+
+[node name="Dummy" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
 
 [connection signal="timeout" from="Pathfinding/Timer Update" to="." method="update_pathfinder"]
