@@ -39,10 +39,11 @@ func build(_origin: Vector2i):
 		var active_point: Vector2i= active_points[0]
 		for x in range(-1, 2):
 			for y in range(-1, 2):
+				if x == 0 and y == 0: continue
 				if x == 0 or y == 0 or allow_diagonals:
 					var point:= Vector2i(x, y)
 					point+= active_points[0]
-					if not point in active_points and rect.has_point(point):
+					if rect.has_point(point):
 						if tile_map.get_cell_source_id(point) == -1:
 							if not field.has(point):
 								active_points.append(point)
