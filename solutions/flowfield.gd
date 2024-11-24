@@ -1,5 +1,6 @@
 class_name FlowField
 
+const allow_diagonals:= true
 
 var field: Dictionary
 
@@ -8,7 +9,6 @@ var origin: Vector2i
 var size: Vector2i
 var rect: Rect2i
 
-var allow_diagonals:= true
 
 
 
