@@ -62,3 +62,9 @@ func build(_origin: Vector2i):
 
 func get_grid_coords(pos: Vector2)-> Vector2i:
 	return pos / Global.TILE_SIZE
+
+
+func debug_draw(canvas: CanvasItem, tile_map: TileMapLayer, color: Color):
+	for key: Vector2i in field:
+		var center:= tile_map.map_to_local(key)
+		canvas.draw_string(Global.font, center, "%.1f" % field[key], HORIZONTAL_ALIGNMENT_CENTER, -1, 16, color)
