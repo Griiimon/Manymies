@@ -52,7 +52,7 @@ func build(_origin: Vector2i):
 								# if this point is already part of the flow field choose
 								# the lowest value
 								field[point]= min(field[point], field[active_point] + sqrt(abs(x) + abs(y)))
-			
+								
 		# remove this point from the active points list
 		active_points.remove_at(0)
 
@@ -61,7 +61,7 @@ func build(_origin: Vector2i):
 
 
 func get_grid_coords(pos: Vector2)-> Vector2i:
-	return pos / Global.TILE_SIZE
+	return floor(pos / Global.TILE_SIZE)
 
 
 func debug_draw(canvas: CanvasItem, tile_map: TileMapLayer, color: Color):
