@@ -11,7 +11,6 @@ var rect: Rect2i
 
 
 
-
 func _init(_tile_map: TileMapLayer, _size: Vector2i= Vector2i.ZERO):
 	tile_map= _tile_map
 	size= _size
