@@ -61,7 +61,7 @@ func build(_origin: Vector2i):
 
 
 func get_grid_coords(pos: Vector2)-> Vector2i:
-	return floor(pos / Global.TILE_SIZE)
+	return Global.pathfinder.get_grid_coords(pos)
 
 
 func debug_draw(canvas: CanvasItem, tile_map: TileMapLayer, color: Color):

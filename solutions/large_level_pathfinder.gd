@@ -49,6 +49,10 @@ func _process(delta: float) -> void:
 		queue_redraw()
 
 
+func get_grid_coords(pos: Vector2)-> Vector2i:
+	return tile_map.local_to_map(pos)
+
+
 func get_direction(from: Vector2)-> Vector2:
 	var dir: Vector2= get_flowfield_direction(from)
 	
