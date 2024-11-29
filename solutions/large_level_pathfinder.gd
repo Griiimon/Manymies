@@ -2,7 +2,17 @@ extends Pathfinder
 
 @export var tile_map: TileMapLayer
 @export var dynamic_field_size: Vector2i= Vector2i(60, 40)
+
+# with strict mode enabled always follow the flowfield direction..
+@export var strict_mode: bool= true
+
+# .. otherwise go straight to the player unless the flowfields direction
+# deviation from the direction to the player is greater than this angle
+@export var max_deviation_angle: float= 30.0
+
 @export var debug_mode: bool= false
+
+@onready var max_deviation_angle_cos: float= cos(deg_to_rad(max_deviation_angle))
 
 var dynamic_flow_field: DirectionFlowField
 var static_flow_fields: Array[DirectionFlowField]
@@ -38,6 +48,17 @@ func _process(delta: float) -> void:
 
 
 func get_direction(from: Vector2)-> Vector2:
+	var dir: Vector2= get_flowfield_direction(from)
+	
+	if not Global.pathfinder.strict_mode:
+		var player_dir: Vector2= from.direction_to(Global.player.position)
+		if player_dir.dot(dir) > max_deviation_angle_cos:
+			dir= player_dir
+	
+	return dir
+
+
+func get_flowfield_direction(from: Vector2)-> Vector2:
 	if dynamic_flow_field.rect.has_point(get_grid_coords(from)):
 		return dynamic_flow_field.get_direction(from)
 

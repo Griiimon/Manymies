@@ -101,7 +101,7 @@ tile_set = SubResource("TileSet_4ggjr")
 [node name="Pathfinding" type="Node2D" parent="." node_paths=PackedStringArray("tile_map")]
 script = ExtResource("8_w0axd")
 tile_map = NodePath("../TileMapLayer Obstacles")
-debug_mode = true
+max_deviation_angle = 40.0
 
 [node name="Timer Update" type="Timer" parent="Pathfinding"]
 wait_time = 0.5
