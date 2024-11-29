@@ -14,13 +14,12 @@ func build(_origin: Vector2i):
 		# find the lowest valued neighbor to each flow field point and set it as the
 		# preferred direction from there 
 		var lowest:= 999999.9
-		for x in range(-1, 2):
-			for y in range(-1, 2):
-				if x == 0 or y == 0 or allow_diagonals:
-					var neighbor: Vector2i= key + Vector2i(x, y)
-					if field.has(neighbor) and field[neighbor] < lowest:
-						lowest= field[neighbor]
-						cached_directions[key]= Vector2(neighbor - key).normalized()
+		for neighbor_type in [ TileSet.CELL_NEIGHBOR_RIGHT_CORNER, TileSet.CELL_NEIGHBOR_BOTTOM_RIGHT_SIDE, TileSet.CELL_NEIGHBOR_BOTTOM_CORNER, TileSet.CELL_NEIGHBOR_BOTTOM_LEFT_SIDE, TileSet.CELL_NEIGHBOR_LEFT_CORNER, TileSet.CELL_NEIGHBOR_TOP_LEFT_SIDE, TileSet.CELL_NEIGHBOR_TOP_CORNER, TileSet.CELL_NEIGHBOR_TOP_RIGHT_SIDE ]:
+			var neighbor: Vector2i= tile_map.get_neighbor_cell(key, neighbor_type)
+			if field.has(neighbor) and field[neighbor] < lowest:
+				lowest= field[neighbor]
+				#cached_directions[key]= Vector2(neighbor - key).normalized()
+				cached_directions[key]= Vector2(Global.pathfinder.tile_map.map_to_local(neighbor) - Global.pathfinder.tile_map.map_to_local(key)).normalized()
 
 
 func get_direction(from: Vector2)-> Vector2:
@@ -31,11 +30,13 @@ func get_direction(from: Vector2)-> Vector2:
 
 
 func debug_draw(canvas: CanvasItem, tile_map: TileMapLayer, color: Color):
+	var color_a= color
+	color_a.a= 0.5
 	for key: Vector2i in cached_directions:
 		var center:= tile_map.map_to_local(key)
 		var dir: Vector2= get_direction(center)
 			
-		canvas.draw_circle(center, 5, color, true)
-		canvas.draw_line(center, center + dir * 20, color, 2)
+		canvas.draw_circle(center, 5, color_a, true)
+		canvas.draw_line(center, center + dir * 20, color_a, 2)
 
 	#super(canvas, tile_map, color)

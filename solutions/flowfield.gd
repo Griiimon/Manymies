@@ -36,22 +36,20 @@ func build(_origin: Vector2i):
 		# that are inside the rect, arent part of the flow field yet and arent an obstacle
 		
 		var active_point: Vector2i= active_points[0]
-		for x in range(-1, 2):
-			for y in range(-1, 2):
-				if x == 0 and y == 0: continue
-				if x == 0 or y == 0 or allow_diagonals:
-					var point:= Vector2i(x, y)
-					point+= active_points[0]
-					if rect.has_point(point):
-						if tile_map.get_cell_source_id(point) == -1:
-							if not field.has(point):
-								active_points.append(point)
-								# the new point has a value of the current point + 1
-								field[point]= field[active_point] + sqrt(abs(x) + abs(y))
-							else:
-								# if this point is already part of the flow field choose
-								# the lowest value
-								field[point]= min(field[point], field[active_point] + sqrt(abs(x) + abs(y)))
+		for neighbor in [ TileSet.CELL_NEIGHBOR_RIGHT_CORNER, TileSet.CELL_NEIGHBOR_BOTTOM_RIGHT_SIDE, TileSet.CELL_NEIGHBOR_BOTTOM_CORNER, TileSet.CELL_NEIGHBOR_BOTTOM_LEFT_SIDE, TileSet.CELL_NEIGHBOR_LEFT_CORNER, TileSet.CELL_NEIGHBOR_TOP_LEFT_SIDE, TileSet.CELL_NEIGHBOR_TOP_CORNER, TileSet.CELL_NEIGHBOR_TOP_RIGHT_SIDE ]:
+			var point: Vector2i= tile_map.get_neighbor_cell(active_point, neighbor)
+
+			if rect.has_point(point):
+				if tile_map.get_cell_source_id(point) == -1:
+					var diagonal: bool= not (neighbor in [ TileSet.CELL_NEIGHBOR_RIGHT_CORNER, TileSet.CELL_NEIGHBOR_BOTTOM_CORNER, TileSet.CELL_NEIGHBOR_LEFT_CORNER, TileSet.CELL_NEIGHBOR_TOP_CORNER ])
+					if not field.has(point):
+						active_points.append(point)
+						# the new point has a value of the current point + 1
+						field[point]= field[active_point] + (1.4 if diagonal else 1.0)
+					else:
+						# if this point is already part of the flow field choose
+						# the lowest value
+						field[point]= min(field[point], field[active_point] + (1.4 if diagonal else 1.0))
 								
 		# remove this point from the active points list
 		active_points.remove_at(0)
