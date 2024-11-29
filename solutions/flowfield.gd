@@ -59,7 +59,7 @@ func build(_origin: Vector2i):
 
 
 func get_grid_coords(pos: Vector2)-> Vector2i:
-	return Global.pathfinder.get_grid_coords(pos)
+	return tile_map.local_to_map(pos)
 
 
 func debug_draw(canvas: CanvasItem, tile_map: TileMapLayer, color: Color):
