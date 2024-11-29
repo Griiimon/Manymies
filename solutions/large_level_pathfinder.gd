@@ -11,6 +11,7 @@ extends Pathfinder
 @export var max_deviation_angle: float= 30.0
 
 @export var debug_mode: bool= false
+@export var disable_waypoints: bool= false
 
 @onready var max_deviation_angle_cos: float= cos(deg_to_rad(max_deviation_angle))
 
@@ -28,12 +29,13 @@ func _ready():
 	
 	dynamic_flow_field= DirectionFlowField.new(tile_map, dynamic_field_size)
 	
-	for marker: Marker2D in find_children("*", "Marker2D"):
-		var grid_coords: Vector2i= get_grid_coords(marker.global_position)
-		var static_flow_field:= DirectionFlowField.new(tile_map)
-		static_flow_field.build(grid_coords)
-		static_flow_fields.append(static_flow_field)
-		print("Created Static FlowField #", static_flow_fields.size(), " @", grid_coords)
+	if not disable_waypoints:
+		for marker: Marker2D in find_children("*", "Marker2D"):
+			var grid_coords: Vector2i= get_grid_coords(marker.global_position)
+			var static_flow_field:= DirectionFlowField.new(tile_map)
+			static_flow_field.build(grid_coords)
+			static_flow_fields.append(static_flow_field)
+			print("Created Static FlowField #", static_flow_fields.size(), " @", grid_coords)
 
 		#var rect: Rect2i
 		#for key in static_flow_field.field:
@@ -98,15 +100,18 @@ func _draw():
 	
 	busy= true
 	
-	closest_waypoint_flow_field.debug_draw(self, tile_map, Color.BLUE_VIOLET)
+	if not disable_waypoints:
+		closest_waypoint_flow_field.debug_draw(self, tile_map, Color.BLUE_VIOLET)
+
 	dynamic_flow_field.debug_draw(self, tile_map, Color.RED)
 	
-	for flow_field in static_flow_fields:
-		var global_pos: Vector2= tile_map.map_to_local(flow_field.origin)
-		var color: Color= Color.GREEN if flow_field == closest_waypoint_flow_field else Color.YELLOW
-		draw_circle(global_pos, Global.TILE_SIZE, color, false, 5)
+	if not disable_waypoints:
+		for flow_field in static_flow_fields:
+			var global_pos: Vector2= tile_map.map_to_local(flow_field.origin)
+			var color: Color= Color.GREEN if flow_field == closest_waypoint_flow_field else Color.YELLOW
+			draw_circle(global_pos, Global.TILE_SIZE, color, false, 5)
 
-		if flow_field == closest_waypoint_flow_field:
-			draw_line(global_pos, Global.player.position, Color.ORANGE, 3)
+			if flow_field == closest_waypoint_flow_field:
+				draw_line(global_pos, Global.player.position, Color.ORANGE, 3)
 
 	busy= false
