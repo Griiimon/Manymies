@@ -36,7 +36,7 @@ func debug_draw(canvas: CanvasItem, tile_map: TileMapLayer, color: Color):
 		var center:= tile_map.map_to_local(key)
 		var dir: Vector2= get_direction(center)
 			
-		canvas.draw_circle(center, 5, color_a, true)
-		canvas.draw_line(center, center + dir * 20, color_a, 2)
+		canvas.draw_circle(center, 4, color_a, true)
+		canvas.draw_line(center, center + dir * 15, color_a, 2)
 
 	#super(canvas, tile_map, color)
