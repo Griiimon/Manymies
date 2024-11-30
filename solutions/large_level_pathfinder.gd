@@ -32,6 +32,7 @@ func _ready():
 	if not disable_waypoints:
 		for marker: Marker2D in find_children("*", "Marker2D"):
 			var grid_coords: Vector2i= get_grid_coords(marker.global_position)
+			assert(tile_map.get_used_rect().has_point(grid_coords), "Waypoint %s out of bounds, %s not in %s" % [ str(marker.name), str(grid_coords), str(tile_map.get_used_rect())])
 			var static_flow_field:= DirectionFlowField.new(tile_map)
 			static_flow_field.build(grid_coords)
 			static_flow_fields.append(static_flow_field)
