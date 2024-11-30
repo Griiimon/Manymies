@@ -57,9 +57,9 @@ func get_grid_coords(pos: Vector2)-> Vector2i:
 func get_direction(from: Vector2)-> Vector2:
 	var dir: Vector2= get_flowfield_direction(from)
 	
-	if not Global.pathfinder.strict_mode:
+	if not Global.pathfinder.strict_mode or not dir:
 		var player_dir: Vector2= from.direction_to(Global.player.position)
-		if player_dir.dot(dir) > max_deviation_angle_cos:
+		if not dir or player_dir.dot(dir) > max_deviation_angle_cos:
 			dir= player_dir
 	
 	return dir
