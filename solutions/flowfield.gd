@@ -41,7 +41,7 @@ func build(_origin: Vector2i):
 
 			if rect.has_point(point):
 				if tile_map.get_cell_source_id(point) == -1:
-					var diagonal: bool= not (neighbor in [ TileSet.CELL_NEIGHBOR_RIGHT_CORNER, TileSet.CELL_NEIGHBOR_BOTTOM_CORNER, TileSet.CELL_NEIGHBOR_LEFT_CORNER, TileSet.CELL_NEIGHBOR_TOP_CORNER ])
+					var diagonal: bool= neighbor in [ TileSet.CELL_NEIGHBOR_RIGHT_CORNER, TileSet.CELL_NEIGHBOR_BOTTOM_CORNER, TileSet.CELL_NEIGHBOR_LEFT_CORNER, TileSet.CELL_NEIGHBOR_TOP_CORNER ]
 					if not field.has(point):
 						active_points.append(point)
 						# the new point has a value of the current point + 1
