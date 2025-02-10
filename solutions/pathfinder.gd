@@ -13,6 +13,10 @@ func _ready() -> void:
 		Global.pathfinder= self
 
 
+func get_grid_coords(pos: Vector2)-> Vector2i:
+	return pos / Global.TILE_SIZE
+
+
 func get_direction(from: Vector2)-> Vector2:
 	return Vector2.ZERO 
 
