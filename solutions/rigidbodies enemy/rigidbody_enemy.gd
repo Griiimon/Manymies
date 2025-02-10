@@ -45,6 +45,7 @@ func _ready():
 func _physics_process(delta):
 	if ( Engine.get_physics_frames() + tick_offset ) % ( skip_frames + 1 ) == 0:
 		var pathfinder_dir: Vector2= Global.pathfinder.get_direction(position)
-
-		var random_dir= Vector2(randf_range(-1, 1), randf_range(-1, 1))
+		var random_dir: Vector2
+		if pathfinder_dir:
+			random_dir= Vector2(randf_range(-1, 1), randf_range(-1, 1))
 		rb.linear_velocity= lerp(pathfinder_dir, random_dir, randomize_direction).normalized()  * maximum_speed
